@@ -11,7 +11,18 @@ const UserForm = ({ onSubmitUser }) => {
     <form className="vertical-stack form" onSubmit={handleSubmit(onSubmitUser)}>
       <label htmlFor="name">
         Name
-        <input {...register('username')} id="name" type="text" name="name" />
+        <input
+          {...register('username', {
+            minLength: {
+              value: 4,
+              message: 'Username must be at least 4 characters long',
+            },
+            required: 'Username is required !',
+          })}
+          id="name"
+          type="text"
+          name="name"
+        />{' '}
       </label>
       <label htmlFor="password">
         Password
