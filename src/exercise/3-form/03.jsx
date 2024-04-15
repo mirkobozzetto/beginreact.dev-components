@@ -1,63 +1,46 @@
-// import { useRef } from 'react';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const UserForm = ({ onSubmitUser }) => {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters long');
-      return;
-    }
-    onSubmitUser({ name, password });
-  };
-
-  const resetError = () => {
-    setError(null);
-  };
-
-  const onNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const onPasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-  //
   return (
-    <form onSubmit={handleSubmit} className="vertical-stack form">
-      <h2>User Form</h2>
-      <label>
+    <form className="vertical-stack form" onSubmit={handleSubmit(onSubmitUser)}>
+      <label htmlFor="name">
         Name
-        <input type="text" name="name" value={name} onChange={onNameChange} />
+        <input {...register('username')} id="name" type="text" name="name" />
       </label>
-      <label>
+      <label htmlFor="password">
         Password
         <input
+          {...register('password', {
+            minLength: {
+              value: 8,
+              message: 'Password must be at least 8 characters long',
+            },
+            required: 'Password is required !',
+          })}
+          id="password"
           type="password"
           name="password"
-          value={password}
-          onChange={(event) => {
-            resetError();
-            onPasswordChange(event);
-          }}
         />
       </label>
+      {errors.password && (
+        <p style={{ color: '#e74c3c' }}>{errors.password.message}</p>
+      )}
       <input type="submit" value="Submit" />
-      {error && <p className="error">{error}</p>}
     </form>
   );
 };
 
-const Form = () => {
+const App = () => {
   const onSubmitUser = (data) => {
     alert('Form submitted: ' + JSON.stringify(data));
   };
   return <UserForm onSubmitUser={onSubmitUser} />;
 };
 
-export default Form;
+export default App;
