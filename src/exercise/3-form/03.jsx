@@ -1,35 +1,39 @@
 import { useRef } from 'react';
+import { useState } from 'react';
 
 const UserForm = ({ onSubmitUser }) => {
-  // 🦁 Crée une fonction handleSubmit qui prend `event` en paramètre.
-  // Récupère ensuite les deux données du formulaire (name et password)
-  // Pour ça tu peux t'aider en loggant dans la console `event.currentTarget` et en cherchant les propriétés name et password.
-  // 💡 Tu peux utiliser `event.currentTarget.elements` pour récupérer les éléments du formulaire.
+  const nameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let elements = event.currentTarget.elements;
-    let name = elements.name.value;
-    let password = elements.password.value;
+    const name = nameRef.current.value;
+    const password = passwordRef.current.value;
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      console.log('Password must be at least 8 characters long');
+      return;
+    }
+
     onSubmitUser({ name, password });
+    // console.log({ name, password });
   };
 
-  // 🦁 Appelle la fonction `onSubmitUser` avec les deux données du formulaire dans un object
-  // 💡 onSubmitUser({ name, password })
-  // 💡 Ajoute event.preventDefault() pour éviter que la page ne se recharge
-
   return (
-    // 🦁 ajoute onSubmit en passant la fonction handleSubmit
     <form onSubmit={handleSubmit} className="vertical-stack form">
+      <h2>User Form</h2>
       <label>
         Name
-        <input type="text" name="name" />
+        <input type="text" name="name" ref={nameRef} />
       </label>
       <label>
         Password
-        <input type="password" name="password" />
+        <input type="password" name="password" ref={passwordRef} />
       </label>
       <input type="submit" value="Submit" />
+      {error && <div className="error">{error}</div>}
     </form>
   );
 };
