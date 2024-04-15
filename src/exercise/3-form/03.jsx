@@ -1,24 +1,31 @@
-import { useRef } from 'react';
+// import { useRef } from 'react';
 import { useState } from 'react';
 
 const UserForm = ({ onSubmitUser }) => {
-  const nameRef = useRef(null);
-  const passwordRef = useRef(null);
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const name = nameRef.current.value;
-    const password = passwordRef.current.value;
 
     if (password.length < 8) {
       setError('Password must be at least 8 characters long');
-      console.log('Password must be at least 8 characters long');
       return;
     }
-
     onSubmitUser({ name, password });
-    // console.log({ name, password });
+  };
+
+  const resetError = () => {
+    setError(null);
+  };
+
+  const onNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const onPasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -26,14 +33,22 @@ const UserForm = ({ onSubmitUser }) => {
       <h2>User Form</h2>
       <label>
         Name
-        <input type="text" name="name" ref={nameRef} />
+        <input type="text" name="name" value={name} onChange={onNameChange} />
       </label>
       <label>
         Password
-        <input type="password" name="password" ref={passwordRef} />
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={(event) => {
+            resetError();
+            onPasswordChange(event);
+          }}
+        />
       </label>
       <input type="submit" value="Submit" />
-      {error && <div className="error">{error}</div>}
+      {error && <p className="error">{error}</p>}
     </form>
   );
 };
