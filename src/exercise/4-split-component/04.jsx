@@ -1,16 +1,20 @@
 import clsx from 'clsx';
 import styles from '../../styles/Exercise2.module.css';
+// import ShoppingList from '../2-list/02';
 
-const App = () => {
+const Header = () => {
   return (
-    <div className={clsx(styles['container'])}>
-      {/* 🦁 Crée un composant Header avec l'header ci-dessous. */}
-      <header>
-        <h1>Mes recettes de cuisine !</h1>
-        <p>Par BeginReact.dev</p>
-      </header>
+    <header>
+      <h1>Mes recettes de cuisine !</h1>
+      <p>Par BeginReact.dev</p>
       <hr />
-      {/* 🦁 Crée un composant ShoppingList avec les éléments ci-dessous. */}
+    </header>
+  );
+};
+
+const ShoppingList = () => {
+  return (
+    <>
       <div className={clsx(styles['flex-col'])}>
         <h2>Liste de course</h2>
         <div className={styles['shopping-list-items']}>
@@ -44,7 +48,13 @@ const App = () => {
         </div>
       </div>
       <hr />
-      {/* 🦁 Crée un composant Recipes avec les éléments ci-dessous. */}
+    </>
+  );
+};
+
+const Recipes = () => {
+  return (
+    <>
       <div className={clsx(styles['flex-col'])}>
         <h2>Liste de recettes à faire</h2>
         <ul className={clsx(styles['flex-col'], styles['gap-2'])}>
@@ -65,10 +75,25 @@ const App = () => {
         </ul>
       </div>
       <hr />
-      {/* 🦁 Crée un composant Footer avec le footer ci-dessous. */}
-      <footer>
-        <p>Create by BeginReact.dev</p>
-      </footer>
+    </>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer>
+      <p>Create by BeginReact.dev</p>
+    </footer>
+  );
+};
+
+const App = () => {
+  return (
+    <div className={clsx(styles['container'])}>
+      <Header />
+      <ShoppingList />
+      <Recipes />
+      <Footer />
     </div>
   );
 };
