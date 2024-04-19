@@ -1,6 +1,17 @@
 import clsx from 'clsx';
 import styles from '../../styles/Exercise2.module.css';
-// import ShoppingList from '../2-list/02';
+
+const shoppingItems = [
+  { name: 'Carotte', quantity: 12 },
+  { name: 'Patate', quantity: 11 },
+  { name: 'Haricot', quantity: 54 },
+];
+
+const recipeItems = [
+  { name: 'Tarte à la carotte', date: '11.06.22' },
+  { name: 'Purée de patate', date: '15.08.23' },
+  { name: 'Sauce au haricot', date: '22.09.24' },
+];
 
 const Header = () => {
   return (
@@ -12,43 +23,31 @@ const Header = () => {
   );
 };
 
+const Badge = ({ children }) => {
+  return <p className={styles.badge}>{children}</p>;
+};
+
 const ShoppingList = () => {
   return (
-    <>
-      <div className={clsx(styles['flex-col'])}>
-        <h2>Liste de course</h2>
-        <div className={styles['shopping-list-items']}>
-          <div className={clsx(styles['shopping-item'], styles['bg-paper'])}>
+    <div className={clsx(styles['flex-col'])}>
+      <h2>Liste de course</h2>
+      <div className={styles['shopping-list-items']}>
+        {shoppingItems.map((item, index) => (
+          <div
+            key={index}
+            className={clsx(styles['shopping-item'], styles['bg-paper'])}
+          >
             <div className={styles.section}>
-              <p>Carotte !</p>
-              <p className={styles.badge}>12</p>
+              <p>{item.name} !</p>
+              <Badge>{item.quantity}</Badge>
             </div>
             <div className={styles.section}>
               <input type="checkbox" />
             </div>
           </div>
-          <div className={clsx(styles['shopping-item'], styles['bg-paper'])}>
-            <div className={styles.section}>
-              <p>Patate !</p>
-              <p className={styles.badge}>11</p>
-            </div>
-            <div className={styles.section}>
-              <input type="checkbox" />
-            </div>
-          </div>
-          <div className={clsx(styles['shopping-item'], styles['bg-paper'])}>
-            <div className={styles.section}>
-              <p>Haricot !</p>
-              <p className={styles.badge}>54</p>
-            </div>
-            <div className={styles.section}>
-              <input type="checkbox" />
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
-      <hr />
-    </>
+    </div>
   );
 };
 
@@ -58,20 +57,12 @@ const Recipes = () => {
       <div className={clsx(styles['flex-col'])}>
         <h2>Liste de recettes à faire</h2>
         <ul className={clsx(styles['flex-col'], styles['gap-2'])}>
-          <li className={clsx(styles['flex'], styles['gap-4'])}>
-            <span>Tarte à la carotte</span>
-            <p className={styles.badge}>11.06.22</p>
-          </li>
-
-          <li className={clsx(styles['flex'], styles['gap-4'])}>
-            <span>Purée de patate</span>
-            <p className={styles.badge}>15.08.23</p>
-          </li>
-
-          <li className={clsx(styles['flex'], styles['gap-4'])}>
-            <span>Sauce au haricot</span>
-            <p className={styles.badge}>22.09.24</p>
-          </li>
+          {recipeItems.map((item, index) => (
+            <li key={index} className={clsx(styles['flex'], styles['gap-4'])}>
+              <span>{item.name}</span>
+              <Badge>{item.date}</Badge>
+            </li>
+          ))}
         </ul>
       </div>
       <hr />
